@@ -1,0 +1,33 @@
+---
+
+- name: Configure Apache HTTPD on Red Hat VMs
+  hosts: all
+  become: yes
+  tasks:
+    - name: Add PHP support for Apache
+      yum:
+        name: php
+        state: present
+
+    - name: Ensure Apache is installed
+      yum:
+        name: httpd
+        state: present
+
+    - name: Ensure Apache is running and enabled
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: Allow HTTP service through the firewall
+      firewalld:
+        service: http
+        permanent: yes
+        state: enabled
+        immediate: yes
+
+    - name: Reload firewall to apply changes
+      command: firewall-cmd --reload
+      become: yes
+

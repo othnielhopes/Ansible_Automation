@@ -1,0 +1,24 @@
+---
+- name: Update Red Hat servers and install vim and tmux
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Update package cache
+      dnf:
+        update_cache: yes
+
+    - name: Upgrade all packages
+      dnf:
+        name: '*'
+        state: latest
+
+    - name: Install vim-enhanced
+      dnf:
+        name: vim-enhanced
+        state: present
+
+    - name: Install tmux
+      dnf:
+        name: tmux
+        state: present
+
